@@ -4,19 +4,32 @@
  * Update this file with your specific domain and contact information
  */
 
+/**
+ * Get the current site URL dynamically
+ * Works with multiple domains automatically
+ */
+export const getSiteUrl = () => {
+  // In production, use the current domain
+  if (typeof window !== 'undefined') {
+    return `${window.location.protocol}//${window.location.host}`;
+  }
+  // Fallback for SSR
+  return process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
+};
+
 export const siteConfig = {
   name: "Domain For Sale",
   description:
     "Domain name available for immediate purchase. Secure this memorable web address for your business, startup, or project. Fast transfer, secure payment, and full support included.",
+  // URL is dynamic and will match whatever domain is being accessed
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   ogImage: "/og-image.jpg",
   links: {
-    twitter: "https://twitter.com/yourusername",
-    github: "https://github.com/yourusername",
+    linkdin: "https://www.linkedin.com/in/c%C3%A9sar-gonz%C3%A1lez-tar%C3%ADn/",
+    github: "https://github.com/Gity37",
   },
   contact: {
-    email: "contact@yourdomain.com",
-    phone: "+1 (555) 123-4567",
+    email: "cgleztarin@hotmail.com"
   },
   keywords: [
     "domain for sale",
