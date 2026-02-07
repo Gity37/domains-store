@@ -8,7 +8,7 @@ A Next.js application for advertising domains for sale. The app displays the cur
 - 📋 **Multiple Domains**: Shows a list of other available domains for sale
 - 📧 **Contact Form**: Easy-to-use form for potential buyers to express interest
 - 🎨 **Responsive Design**: Beautiful, mobile-friendly interface with Tailwind CSS
-- ⚡ **Next.js App Router**: Modern Next.js 14+ with TypeScript
+- ⚡ **Next.js App Router**: Modern Next.js 16+ with TypeScript
 
 ## Getting Started
 
