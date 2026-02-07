@@ -4,6 +4,33 @@ import { useState, useEffect } from 'react';
 import { DOMAINS_FOR_SALE } from '@/data/domains';
 import { siteConfig } from '@/config/site';
 
+// Helper function to extract root domain without subdomain
+const getRootDomain = (hostname: string): string => {
+  // Remove www. if present
+  const withoutWww = hostname.replace(/^www\./, '');
+  
+  // Split by dots
+  const parts = withoutWww.split('.');
+  
+  // If it's localhost or an IP, return as is
+  if (parts.length <= 2 || hostname === 'localhost' || /^\d+\.\d+\.\d+\.\d+$/.test(hostname)) {
+    return withoutWww;
+  }
+  
+  // For domains like subdomain.example.com or subdomain.example.co.uk
+  // Return the last two parts (example.com) or three parts for special TLDs (example.co.uk)
+  const specialTLDs = ['co.uk', 'com.au', 'co.jp', 'co.nz', 'co.za'];
+  const lastTwoParts = parts.slice(-2).join('.');
+  
+  // Check if it's a special TLD
+  if (specialTLDs.includes(lastTwoParts)) {
+    return parts.slice(-3).join('.');
+  }
+  
+  // Return domain.tld (last 2 parts)
+  return lastTwoParts;
+};
+
 export default function Home() {
   const [currentDomain, setCurrentDomain] = useState<string>('');
   const [formData, setFormData] = useState({
@@ -18,9 +45,10 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Get the current domain from window.location
+    // Get the current domain from window.location (without subdomain)
     if (typeof window !== 'undefined') {
-      setCurrentDomain(window.location.hostname);
+      const rootDomain = getRootDomain(window.location.hostname);
+      setCurrentDomain(rootDomain);
       setMounted(true);
     }
   }, []);
