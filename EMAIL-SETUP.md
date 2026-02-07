@@ -1,61 +1,79 @@
 # Configuración de Email - 100% GRATUITO
 
-El sistema está configurado para usar **tu propia cuenta de Hotmail/Outlook**. No necesitas pagar nada ni registrarte en servicios externos.
+⚠️ **Configuración**: Usarás **Gmail para ENVIAR** y los emails llegarán a **tu Hotmail**.
 
 ## 🎯 Cómo funciona
 
-Tu email (cgleztarin@hotmail.com) se enviará emails a sí mismo con la información de las consultas. Es completamente gratis.
+- **Gmail** → Cuenta que envía los emails (gratis, funciona perfecto)
+- **Hotmail** → Donde recibes los emails (cgleztarin@hotmail.com)
+- No necesitas configurar reenvíos ni nada complicado
 
-## 🔑 Configuración Rápida (5 minutos)
+## 🔑 Configuración (5 minutos)
 
-### Paso 1: Crear una Contraseña de Aplicación
+### Paso 1: Ten una cuenta Gmail
 
-Microsoft no permite usar tu contraseña normal por seguridad. Necesitas crear una "App Password":
+Puedes:
+- Usar tu Gmail personal
+- O crear uno nuevo solo para esto (ej: `dominios.cglez@gmail.com`)
 
-1. **Ve a tu cuenta de seguridad de Microsoft**:
-   👉 https://account.microsoft.com/security
+Esta cuenta solo se usa para ENVIAR, no recibirás emails aquí.
 
-2. **Habilita la verificación en dos pasos** (si no la tienes):
-   - Scroll hasta "Verificación en dos pasos"
-   - Click en "Activar la verificación en dos pasos"
-   - Sigue las instrucciones (te pedirá tu teléfono)
+### Paso 2: Habilitar verificación en 2 pasos en Gmail
 
-3. **Crear App Password**:
-   - Una vez activada la verificación en dos pasos
-   - Busca "Contraseñas de aplicación" o "App passwords"
-   - Click en "Crear una nueva contraseña de aplicación"
-   - Dale un nombre: "Domains Store"
-   - Copia la contraseña generada (formato: `xxxx-xxxx-xxxx-xxxx`)
+1. Ve a: **https://myaccount.google.com/security**
+2. Scroll hasta "Verificación en dos pasos"
+3. Click en "Comenzar" y sigue las instrucciones
 
-### Paso 2: Configurar en tu proyecto
+### Paso 3: Crear App Password de Gmail
 
-1. Abre el archivo `.env.local`
-2. Pega tu App Password:
+1. Ve a: **https://myaccount.google.com/apppasswords**
+2. Si te pide iniciar sesión, hazlo
+3. En "Selecciona la app" → Elige **"Correo"**
+4. En "Selecciona el dispositivo" → Elige **"Otro"** y escribe "Domains Store"
+5. Click en **"Generar"**
+6. Copia la contraseña de 16 caracteres (ej: `abcd efgh ijkl mnop`)
+   - Quita los espacios: `abcdefghijklmnop`
+
+### Paso 4: Configurar en `.env.local`
+
+Abre el archivo `.env.local` y configura:
 
 ```bash
-EMAIL_USER=cgleztarin@hotmail.com
-EMAIL_PASSWORD=xxxx-xxxx-xxxx-xxxx
+# Gmail que ENVÍA los emails
+EMAIL_USER=tu-gmail@gmail.com
+EMAIL_PASSWORD=abcdefghijklmnop
+
+# Hotmail donde RECIBES los emails
+CONTACT_EMAIL=cgleztarin@hotmail.com
 ```
 
-### Paso 3: ¡Listo!
+### Paso 5: ¡Listo!
 
 ```bash
 npm run dev
 ```
 
-Prueba el formulario y deberías recibir el email en tu bandeja de entrada.
+Prueba el formulario y revisa tu **Hotmail** (cgleztarin@hotmail.com).
 
-## ✨ Ventajas de esta solución
+## 📮 Flujo de emails
 
-- ✅ **100% Gratis** - Sin límites ni costos ocultos
-- ✅ **Sin registros** - Usas tu email existente
-- ✅ **Sin APIs externas** - Todo bajo tu control
-- ✅ **Fácil de configurar** - Solo una App Password
+1. Cliente rellena formulario en tu web
+2. Tu **Gmail** envía el email
+3. Email llega a tu **Hotmail** (cgleztarin@hotmail.com)
+4. Puedes responder directamente al cliente desde Hotmail
+
+## ✨ Ventajas de Gmail
+
+- ✅ **100% Gratis** - Sin límites ocultos
+- ✅ **Súper fácil** - App Password en 2 minutos
+- ✅ **Funciona siempre** - No como Hotmail que bloquea autenticación básica
+- ✅ **Sin registros externos** - Usas tu propio Gmail
+- ✅ **500 emails/día** - Límite generoso de Gmail
 - ✅ **Respuesta directa** - Reply-To configurado al cliente
 
 ## 📧 Características del Email
 
-Los emails que recibirás incluyen:
+Los emails incluyen:
 - ✨ Diseño HTML profesional con gradientes
 - 📱 Responsive (se ve bien en móvil)
 - 🔄 Botón Reply responde directamente al cliente
@@ -65,48 +83,45 @@ Los emails que recibirás incluyen:
 
 ## ⚠️ Troubleshooting
 
-### "Error: Invalid login"
-- Verifica que creaste una App Password (no uses tu contraseña normal)
-- Asegúrate de que la verificación en dos pasos está activa
-- Copia la App Password exactamente como aparece
-
-### "Error: Authentication failed"
-- Revisa que EMAIL_USER tiene tu email correcto
-- Verifica que EMAIL_PASSWORD no tiene espacios extras
-- Reinicia el servidor de desarrollo
+### "Error: Invalid login" con Gmail
+- Verifica que tienes verificación en 2 pasos ACTIVA
+- Crea una App Password en: https://myaccount.google.com/apppasswords
+- No uses tu contraseña normal de Gmail
+- Copia la App Password sin espacios
 
 ### Emails no llegan
-- Revisa tu carpeta de spam
-- Verifica que el formulario se envió sin errores
-- Comprueba los logs del servidor
-- Puede tardar 1-2 minutos en llegar
+- Revisa tu carpeta de spam en Gmail
+- Verifica que el formulario se envió sin errores (mira la consola)
+- Los emails llegan en segundos con Gmail
+- Comprueba que EMAIL_USER y EMAIL_PASSWORD están bien en `.env.local`
 
-### Gmail en lugar de Hotmail
-
-Si prefieres usar Gmail, cambia en el código `app/api/contact/route.ts`:
-
-```typescript
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD, // Gmail App Password
-  },
-});
-```
-
-Y crea una App Password de Gmail:
-1. Ve a: https://myaccount.google.com/apppasswords
-2. Selecciona "Correo" y "Otro dispositivo"
-3. Copia la contraseña generada
+### "Error: Authentication unsuccessful" con Hotmail
+- ⚠️ Hotmail/Outlook tienen autenticación básica deshabilitada
+- **Solución**: Usa Gmail en su lugar
+- O habilita SMTP en configuración avanzada de Outlook (complicado)
 
 ## 💰 Límites
 
-**NINGUNO** - Es tu propio correo, puedes enviar tantos emails como quieras (dentro de los límites normales de Outlook: ~300/día).
+- **Gmail**: 500 emails/día (más que suficiente)
+- **100% Gratis**
+- Sin costos ocultos
 
 ## 🔒 Seguridad
 
 - ✅ Las credenciales están en `.env.local` (no se suben a Git)
 - ✅ Usas App Password (no tu contraseña real)
 - ✅ Validación de campos en el formulario
-- ✅ Rate limiting opcional (puedes agregar si quieres)
+- ✅ Reply-To configurado para privacidad
+
+## 🎯 Resumen rápido
+
+1. Crea/usa cuenta Gmail
+2. Activa verificación en 2 pasos: https://myaccount.google.com/security
+3. Crea App Password: https://myaccount.google.com/apppasswords
+4. Pega en `.env.local`:
+   ```bash
+   EMAIL_USER=tu-gmail@gmail.com
+   EMAIL_PASSWORD=tu-app-password-sin-espacios
+   ```
+5. `npm run dev`
+6. ¡Listo!

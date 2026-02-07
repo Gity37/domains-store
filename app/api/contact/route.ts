@@ -14,19 +14,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Email destination
-    const recipientEmail = process.env.EMAIL_USER || 'cgleztarin@hotmail.com';
+    // Email destination - where you want to receive the emails
+    const recipientEmail = process.env.CONTACT_EMAIL || process.env.EMAIL_USER;
 
-    // Create nodemailer transporter with Outlook/Hotmail
-    const transporter = nodemailer.createTransport({
-      host: 'smtp-mail.outlook.com',
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: process.env.EMAIL_USER, // Tu email de Hotmail/Outlook
-        pass: process.env.EMAIL_PASSWORD, // Tu contraseña o App Password
-      },
-    });
+    // Create nodemailer transporter
+    // Works with Gmail or Outlook depending on your email
+    const isGmail = process.env.EMAIL_USER?.includes('@gmail.com');
+    
+    const transporter = nodemailer.createTransport(
+      isGmail
+        ? {
+            service: 'gmail',
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASSWORD, // Gmail App Password
+            },
+          }
+        : {
+            host: 'smtp-mail.outlook.com',
+            port: 587,
+            secure: false,
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASSWORD,
+            },
+            tls: {
+              ciphers: 'SSLv3',
+            },
+          }
+    );
 
     // Send email
     try {
