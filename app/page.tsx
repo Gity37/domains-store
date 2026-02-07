@@ -1,16 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-// List of domains for sale (you can modify this list)
-const DOMAINS_FOR_SALE = [
-  'example-domain1.com',
-  'example-domain2.com',
-  'example-domain3.com',
-  'premium-site.com',
-  'best-domain.com',
-  'super-domain.com',
-];
+import { DOMAINS_FOR_SALE } from '@/data/domains';
+import { siteConfig } from '@/config/site';
 
 export default function Home() {
   const [currentDomain, setCurrentDomain] = useState<string>('');
@@ -23,18 +15,39 @@ export default function Home() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // Get the current domain from window.location
     if (typeof window !== 'undefined') {
       setCurrentDomain(window.location.hostname);
+      setMounted(true);
     }
   }, []);
 
   // Get other domains (exclude current domain)
   const otherDomains = DOMAINS_FOR_SALE.filter(
-    domain => domain !== currentDomain
+    (domain) => domain !== currentDomain
   );
+
+  // Structured Data for SEO - only render after mount to avoid hydration mismatch
+  const structuredData = mounted ? {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: currentDomain || 'Premium Domain',
+    description: `${currentDomain || 'Premium domain'} is available for purchase. Secure this memorable web address for your business.`,
+    offers: {
+      '@type': 'Offer',
+      availability: 'https://schema.org/InStock',
+      priceCurrency: 'USD',
+      price: 'Contact for Price',
+      url: window.location.href,
+    },
+    brand: {
+      '@type': 'Organization',
+      name: siteConfig.name,
+    },
+  } : null;
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -86,7 +99,16 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+    <>
+      {/* JSON-LD Structured Data - only render after mount */}
+      {mounted && structuredData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      )}
+      
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
@@ -111,7 +133,7 @@ export default function Home() {
           </h1>
           
           <p className="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-8 font-light max-w-3xl mx-auto">
-            Premium Domain Name <span className="text-purple-400 font-semibold">For Sale</span>
+            Domain Name <span className="text-purple-400 font-semibold">For Sale</span>
           </p>
           
           <p className="text-base md:text-lg text-gray-400 mb-10 max-w-2xl mx-auto">
@@ -168,7 +190,7 @@ export default function Home() {
           <div className="mb-20">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                More Premium Domains
+                More Domains
               </h2>
               <p className="text-gray-400 text-lg">Explore our collection of available domains</p>
             </div>
@@ -356,7 +378,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
               <div className="text-left">
                 <h3 className="text-2xl font-bold text-white mb-2">Ready to grow?</h3>
-                <p className="text-gray-400">Secure your premium domain today</p>
+                <p className="text-gray-400">Secure your domain today</p>
               </div>
               <button 
                 onClick={() => document.getElementById('contact-form')?.scrollIntoView({behavior: 'smooth'})}
@@ -390,11 +412,12 @@ export default function Home() {
             <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent mb-6"></div>
             
             <p className="text-sm text-gray-500">
-              © {new Date().getFullYear()} Premium Domains. All rights reserved. All domains listed are available for purchase.
+              © {new Date().getFullYear()} Domains. All rights reserved. All domains listed are available for purchase.
             </p>
           </div>
         </footer>
       </div>
     </div>
+    </>
   );
 }

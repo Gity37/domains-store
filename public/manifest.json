@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Domain For Sale",
+  "short_name": "Domain",
+  "description": "Domain name available for immediate purchase",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#9333ea"
+}
