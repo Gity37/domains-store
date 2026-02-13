@@ -60,6 +60,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-4940156556778579" />
+      </head>
       <body className="antialiased">{children}</body>
     </html>
   );
