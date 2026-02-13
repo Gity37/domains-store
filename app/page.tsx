@@ -53,10 +53,8 @@ export default function Home() {
     }
   }, []);
 
-  // Get other domains (exclude current domain)
-  const otherDomains = DOMAINS_FOR_SALE.filter(
-    (domain) => domain !== currentDomain
-  );
+  // Get all domains (including current domain)
+  const otherDomains = DOMAINS_FOR_SALE;
 
   // Structured Data for SEO - only render after mount to avoid hydration mismatch
   const structuredData = mounted ? {

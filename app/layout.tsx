@@ -9,9 +9,9 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: siteConfig.keywords,
-  authors: [{ name: "Domain Sales" }],
-  creator: "Domain Sales",
-  publisher: "Domain Sales",
+  authors: [{ name: "Domain Sales Marketplace" }],
+  creator: "Domain Broker",
+  publisher: "Premium Domains Marketplace",
   metadataBase: new URL(siteConfig.url),
   alternates: {
     canonical: "/",
@@ -50,6 +50,7 @@ export const metadata: Metadata = {
     },
   },
   manifest: "/manifest.json",
+  category: "business",
 };
 
 export default function RootLayout({

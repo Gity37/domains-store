@@ -20,7 +20,7 @@ export const getSiteUrl = () => {
 export const siteConfig = {
   name: "Domain For Sale",
   description:
-    "Domain name available for immediate purchase. Secure this memorable web address for your business, startup, or project. Fast transfer, secure payment, and full support included.",
+    "Premium domain names available for immediate purchase. Buy high-quality web addresses perfect for businesses, startups, and projects. Secure domain acquisition with fast transfer, safe payment processing, and complete customer support. Explore our marketplace of brandable domains for sale.",
   // URL is dynamic and will match whatever domain is being accessed
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   ogImage: "/og-image.jpg",
@@ -33,15 +33,25 @@ export const siteConfig = {
   },
   keywords: [
     "domain for sale",
+    "buy domain name",
     "premium domain",
-    "buy domain",
-    "domain purchase",
-    "web address",
-    "domain name",
+    "domain marketplace",
+    "purchase domain",
+    "domain acquisition",
+    "domain broker",
+    "sell domain",
+    "domain transfer",
+    "web address for sale",
+    "domain name purchase",
     "business domain",
     "startup domain",
-    "memorable domain",
     "brandable domain",
+    "memorable domain",
+    "domain investment",
+    "domain trading",
+    "domain auction",
+    "aftermarket domains",
+    "expired domains",
   ],
   verification: {
     google: "", // Add your Google Search Console verification code
