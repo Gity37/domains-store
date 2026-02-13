@@ -5,6 +5,10 @@
  * displayed on the website.
  */
 export const DOMAINS_FOR_SALE = [
+  'tesapeluqueria.es',
+  'claudiavillegasgarcia.com',
+  'catcrew-fx.com',
+  'almost-yours.com',
   'applyn.ch',
   'ihire.ch',
   'workview.ch',

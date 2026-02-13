@@ -45,9 +45,25 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Get the current domain from window.location (without subdomain)
+    // Get the current domain from referer first, then fallback to window.location
     if (typeof window !== 'undefined') {
-      const rootDomain = getRootDomain(window.location.hostname);
+      let hostname = '';
+      
+      // Try to get hostname from referer first
+      if (document.referrer) {
+        try {
+          const refererUrl = new URL(document.referrer);
+          hostname = refererUrl.hostname;
+        } catch (e) {
+          // If referer parsing fails, use window.location.hostname
+          hostname = window.location.hostname;
+        }
+      } else {
+        // No referer, use current hostname
+        hostname = window.location.hostname;
+      }
+      
+      const rootDomain = getRootDomain(hostname);
       setCurrentDomain(rootDomain);
       setMounted(true);
     }
