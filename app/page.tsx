@@ -50,20 +50,30 @@ export default function Home() {
       let hostname = '';
       
       // Try to get hostname from referer first
+      console.log('🔍 Checking referer...');
+      console.log('document.referrer:', document.referrer || '(empty)');
+      
       if (document.referrer) {
         try {
           const refererUrl = new URL(document.referrer);
           hostname = refererUrl.hostname;
+          console.log('✅ Referer parsed successfully!');
+          console.log('Hostname from referer:', hostname);
         } catch (e) {
           // If referer parsing fails, use window.location.hostname
+          console.log('❌ Failed to parse referer:', e);
           hostname = window.location.hostname;
+          console.log('Using window.location.hostname instead:', hostname);
         }
       } else {
         // No referer, use current hostname
+        console.log('⚠️ No referer found, using window.location.hostname');
         hostname = window.location.hostname;
+        console.log('Hostname:', hostname);
       }
       
       const rootDomain = getRootDomain(hostname);
+      console.log('🎯 Final root domain:', rootDomain);
       setCurrentDomain(rootDomain);
       setMounted(true);
     }

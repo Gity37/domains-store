@@ -5,12 +5,12 @@
  * displayed on the website.
  */
 export const DOMAINS_FOR_SALE = [
-  'tesapeluqueria.es',
-  'claudiavillegasgarcia.com',
-  'catcrew-fx.com',
   'almost-yours.com',
+  'catcrew-fx.com',
   'applyn.ch',
   'ihire.ch',
   'workview.ch',
-  'cityrouteoptimizer.com'
+  'cityrouteoptimizer.com',
+  'tesapeluqueria.es',
+  'claudiavillegasgarcia.com'
 ];
