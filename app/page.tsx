@@ -56,9 +56,22 @@ export default function Home() {
       let hostname = '';
       
       if (domainParam) {
-        // Use domain from query parameter
         console.log('✅ Domain found in query parameter:', domainParam);
-        hostname = domainParam;
+        
+        // Get root domain from parameter to check against our list
+        const rootDomainFromParam = getRootDomain(domainParam);
+        
+        // Check if domain is in our list
+        const isValidDomain = DOMAINS_FOR_SALE.includes(rootDomainFromParam);
+        
+        if (isValidDomain) {
+          console.log('✅ Domain is in our list, using it');
+          hostname = domainParam;
+        } else {
+          console.log('❌ Domain not in our list, using window.location.hostname instead');
+          console.log('Available domains:', DOMAINS_FOR_SALE);
+          hostname = window.location.hostname;
+        }
       } else {
         // Fallback to current hostname
         console.log('⚠️ No domain parameter found, using window.location.hostname');
