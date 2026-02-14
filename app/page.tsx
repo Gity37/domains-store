@@ -45,35 +45,30 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Get the current domain from referer first, then fallback to window.location
+    // Get the domain from query parameter ?domain=example.com
     if (typeof window !== 'undefined') {
+      console.log('🔍 Checking for domain parameter...');
+      
+      // Read domain from query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const domainParam = urlParams.get('domain');
+      
       let hostname = '';
       
-      // Try to get hostname from referer first
-      console.log('🔍 Checking referer...');
-      console.log('document.referrer:', document.referrer || '(empty)');
-      
-      if (document.referrer) {
-        try {
-          const refererUrl = new URL(document.referrer);
-          hostname = refererUrl.hostname;
-          console.log('✅ Referer parsed successfully!');
-          console.log('Hostname from referer:', hostname);
-        } catch (e) {
-          // If referer parsing fails, use window.location.hostname
-          console.log('❌ Failed to parse referer:', e);
-          hostname = window.location.hostname;
-          console.log('Using window.location.hostname instead:', hostname);
-        }
+      if (domainParam) {
+        // Use domain from query parameter
+        console.log('✅ Domain found in query parameter:', domainParam);
+        hostname = domainParam;
       } else {
-        // No referer, use current hostname
-        console.log('⚠️ No referer found, using window.location.hostname');
+        // Fallback to current hostname
+        console.log('⚠️ No domain parameter found, using window.location.hostname');
         hostname = window.location.hostname;
-        console.log('Hostname:', hostname);
       }
       
+      console.log('Hostname:', hostname);
       const rootDomain = getRootDomain(hostname);
       console.log('🎯 Final root domain:', rootDomain);
+      
       setCurrentDomain(rootDomain);
       setMounted(true);
     }
