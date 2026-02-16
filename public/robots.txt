@@ -1,6 +1,16 @@
 # https://www.robotstxt.org/robotstxt.html
+
+# Google AdSense bot - MUST be allowed for AdSense verification
+User-agent: Mediapartners-Google
+Allow: /
+
+# Google AdSense crawler
+User-agent: AdsBot-Google
+Allow: /
+
+# All other bots
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://almost-yours.com/sitemap.xml
