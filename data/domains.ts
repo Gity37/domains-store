@@ -10,6 +10,7 @@ export const DOMAINS_FOR_SALE = [
   'applyn.ch',
   'ihire.ch',
   'workview.ch',
+  'asset-simulator.com',
   'cityrouteoptimizer.com',
   'tesapeluqueria.es',
   'claudiavillegasgarcia.com'
